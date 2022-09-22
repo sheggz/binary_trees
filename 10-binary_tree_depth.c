@@ -11,6 +11,9 @@
  * with depth, we work from the given node upwards to the root node.
  *
  * if a null (empty) node is considered as an entity, its depth is -1.
+ * "BUT!!! WE HAVE BEEN CONSTRAINED TO RETURN 0, WHEN THE FUNNC IS CALLED WITH
+ * NULL"
+ *
  * if one node is considered as entity existing alone( no children), its depth
  * is 0.
  * while the depth of a child from root is 1.
@@ -18,8 +21,22 @@
 
 size_t binary_tree_depth(const binary_tree_t *tree)
 {
+	/*
+	 * should be -1 and should be our base case but because of the
+	 * constraint
+	 */
 	if (!tree)
-		/* -1 for a null(non existentt/empty node */
-		return (-1);
-	return (1 + binary_tree_depth(tree->parent));
+		return (0);
+
+	/*
+	 * this will be our base condition and will prevent the function from
+	 * being called recursively on d parent of the root node which is NULL
+	 *
+	 * BOTH CONDITIONS WERE SPLIT ON PURPOSE, THEY COULD BE JOIND WITH 'or'
+	 */
+
+	if (!tree->parent)
+		return (0);
+	else
+		return (1 + binary_tree_depth(tree->parent));
 }
